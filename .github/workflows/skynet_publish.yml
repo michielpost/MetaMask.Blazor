@@ -17,9 +17,9 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
       - name: Publish Website
-        run: dotnet publish MetaMask.Blazor -o publish/MetaMask.Blazor -c Release
+        run: dotnet publish MetaMask.Blazor.SampleApp -o publish/MetaMask.Blazor.SampleApp -c Release
       - name: Deploy to Skynet
         uses: kwypchlo/deploy-to-skynet-action@main
         with:
-          upload-dir: publish/MetaMask.Blazor/wwwroot
+          upload-dir: publish/MetaMask.Blazor.SampleApp/wwwroot
           github-token: ${{ secrets.GITHUB_TOKEN }}
