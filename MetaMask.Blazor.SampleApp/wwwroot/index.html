@@ -5,10 +5,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>MetaMask.Blazor.SampleApp</title>
-    <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="MetaMask.Blazor.SampleApp.styles.css" rel="stylesheet" />
+    <script>
+        // set base href dynamically based on hosting location
+        var base = document.createElement('base');
+        var newBase = `${window.location.pathname}`;
+
+        var secondSlash = newBase.indexOf("/", 1);
+        newBase = newBase.substr(0, secondSlash);
+
+        // Ensure initial slash present
+        newBase = (newBase.startsWith("/") ? "" : "/") + newBase;
+        // Ensure trailing slash present
+        newBase += (newBase.endsWith("/") ? "" : "/");
+        base.href = newBase;
+        console.log(`Base href set to ${newBase}`);
+        document.getElementsByTagName('head')[0].appendChild(base);
+    </script>
 </head>
 
 <body>
