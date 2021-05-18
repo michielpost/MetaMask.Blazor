@@ -54,7 +54,7 @@ export async function getTransactionCount() {
             ]
 
     });
-   return result;
+    return result;
 }
 
 export async function signTypedData(label, value) {
@@ -68,16 +68,21 @@ export async function signTypedData(label, value) {
         }
     ]
 
-    var result = await ethereum.request({
-        method: 'eth_signTypedData',
-        params:
-            [
-                msgParams,
-                ethereum.selectedAddress
-            ]
-    });
+    try {
+        var result = await ethereum.request({
+            method: 'eth_signTypedData',
+            params:
+                [
+                    msgParams,
+                    ethereum.selectedAddress
+                ]
+        });
 
-    return result;
+        return result;
+    } catch (error) {
+        // User denied account access...
+        throw "UserDenied"
+    }
 }
 
 export async function genericRpc(method, params) {

@@ -36,61 +36,102 @@ namespace MetaMask.Blazor
             {
                 await module.InvokeVoidAsync("checkMetaMask");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                switch (ex.Message)
-                {
-                    case "NoMetaMask":
-                        throw new NoMetaMaskException();
-                    case "UserDenied":
-                        throw new UserDeniedException();
-                    default:
-                        throw;
-                }
+                HandleExceptions(ex);
+                throw;
             }
         }
 
         public async ValueTask<bool> HasMetaMask()
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<bool>("hasMetaMask");
+            try
+            {
+                return await module.InvokeAsync<bool>("hasMetaMask");
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
         }
 
         public async ValueTask<bool> IsSiteConnected()
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<bool>("isSiteConnected");
+            try
+            {
+                return await module.InvokeAsync<bool>("isSiteConnected");
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
         }
 
         public async ValueTask<string> GetSelectedAddress()
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<string>("getSelectedAddress", null);
+            try
+            {
+                return await module.InvokeAsync<string>("getSelectedAddress", null);
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
         }
 
         public async ValueTask<int> GetTransactionCount()
         {
             var module = await moduleTask.Value;
-            var result = await module.InvokeAsync<JsonElement>("getTransactionCount");
-            var resultString = result.GetString()?.Replace("0x", string.Empty);
-            if (resultString != null)
+            try
             {
-                int intValue = int.Parse(resultString, System.Globalization.NumberStyles.HexNumber);
-                return intValue;
+                var result = await module.InvokeAsync<JsonElement>("getTransactionCount");
+                var resultString = result.GetString()?.Replace("0x", string.Empty);
+                if (resultString != null)
+                {
+                    int intValue = int.Parse(resultString, System.Globalization.NumberStyles.HexNumber);
+                    return intValue;
+                }
+                return 0;
             }
-            return 0;
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
         }
 
         public async ValueTask<string> SignTypedData(string label, string value)
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<string>("signTypedData", label, value);
+            try
+            {
+                return await module.InvokeAsync<string>("signTypedData", label, value);
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
         }
 
         public async ValueTask<dynamic> GenericRpc(string method, params dynamic?[]? args)
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<dynamic>("genericRpc", method, args);
+            try
+            {
+                return await module.InvokeAsync<dynamic>("genericRpc", method, args);
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
         }
 
         public async ValueTask DisposeAsync()
@@ -99,6 +140,17 @@ namespace MetaMask.Blazor
             {
                 var module = await moduleTask.Value;
                 await module.DisposeAsync();
+            }
+        }
+
+        private void HandleExceptions(Exception ex)
+        {
+            switch (ex.Message)
+            {
+                case "NoMetaMask":
+                    throw new NoMetaMaskException();
+                case "UserDenied":
+                    throw new UserDeniedException();
             }
         }
     }

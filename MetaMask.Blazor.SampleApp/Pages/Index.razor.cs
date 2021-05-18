@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using MetaMask.Blazor.Exceptions;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,8 +46,19 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         public async Task SignData(string label, string value)
         {
-            var result = await MetaMaskService.SignTypedData("test label", "test value");
-            SignedData = $"Signed: {result}";
+            try
+            {
+                var result = await MetaMaskService.SignTypedData("test label", "test value");
+                SignedData = $"Signed: {result}";
+            }
+            catch(UserDeniedException)
+            {
+                SignedData = "User Denied";
+            }
+            catch(Exception ex)
+            {
+                SignedData = $"Exception: {ex}";
+            }
         }
 
         public async Task GenericRpc()
