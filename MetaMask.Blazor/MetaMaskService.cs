@@ -14,11 +14,11 @@ namespace MetaMask.Blazor
     // This class can be registered as scoped DI service and then injected into Blazor
     // components for use.
 
-    public class MetaMaskJsInterop : IAsyncDisposable
+    public class MetaMaskService : IAsyncDisposable
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
-        public MetaMaskJsInterop(IJSRuntime jsRuntime)
+        public MetaMaskService(IJSRuntime jsRuntime)
         {
             moduleTask = new(() => LoadScripts(jsRuntime).AsTask());
         }
@@ -29,7 +29,7 @@ namespace MetaMask.Blazor
             return jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/MetaMask.Blazor/metaMaskJsInterop.js");
         }
 
-        public async ValueTask CheckMetaMask()
+        public async ValueTask ConnectMetaMask()
         {
             var module = await moduleTask.Value;
             try

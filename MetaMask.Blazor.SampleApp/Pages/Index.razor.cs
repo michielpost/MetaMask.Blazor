@@ -9,7 +9,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
     public partial class Index
     {
         [Inject]
-        public MetaMaskJsInterop MetaMaskJsInterop { get; set; } = default!;
+        public MetaMaskService MetaMaskService { get; set; } = default!;
 
         public bool HasMetaMask { get; set; }
         public string? SelectedAddress { get; set; }
@@ -19,39 +19,39 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            HasMetaMask = await MetaMaskJsInterop.HasMetaMask();
-            bool isSiteConnected = await MetaMaskJsInterop.IsSiteConnected();
+            HasMetaMask = await MetaMaskService.HasMetaMask();
+            bool isSiteConnected = await MetaMaskService.IsSiteConnected();
             if (isSiteConnected)
                 await GetSelectedAddress();
         }
 
-        public async Task CheckMetaMask()
+        public async Task ConnectMetaMask()
         {
-            await MetaMaskJsInterop.CheckMetaMask();
+            await MetaMaskService.ConnectMetaMask();
             await GetSelectedAddress();
         }
 
         public async Task GetSelectedAddress()
         {
-            SelectedAddress = await MetaMaskJsInterop.GetSelectedAddress();
+            SelectedAddress = await MetaMaskService.GetSelectedAddress();
             Console.WriteLine($"Address: {SelectedAddress}");
         }
 
         public async Task GetTransactionCount()
         {
-            var transactionCount = await MetaMaskJsInterop.GetTransactionCount();
+            var transactionCount = await MetaMaskService.GetTransactionCount();
             TransactionCount = $"Transaction count: {transactionCount}";
         }
 
         public async Task SignData(string label, string value)
         {
-            var result = await MetaMaskJsInterop.SignTypedData("test label", "test value");
+            var result = await MetaMaskService.SignTypedData("test label", "test value");
             SignedData = $"Signed: {result}";
         }
 
         public async Task GenericRpc()
         {
-            var result = await MetaMaskJsInterop.GenericRpc("eth_requestAccounts");
+            var result = await MetaMaskService.GenericRpc("eth_requestAccounts");
             RpcResult = $"RPC result: {result}";
         }
     }

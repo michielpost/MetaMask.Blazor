@@ -2,13 +2,13 @@
 
 <h1>MetaMask Blazor Sample App</h1>
 
-@if(!HasMetaMask)
+@if (!HasMetaMask)
 {
     <p>No MetaMask detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.</p>
 }
 else if (string.IsNullOrEmpty(SelectedAddress))
 {
-    <button class="btn btn-primary" @onclick="CheckMetaMask">Initialize connection with MetaMask</button>
+    <button class="btn btn-primary" @onclick="ConnectMetaMask">Initialize connection with MetaMask</button>
     <br />
     <br />
 }
@@ -35,4 +35,5 @@ else
     <br />
 }
 
+<small>Source code available on <a href="https://github.com/michielpost/MetaMask.Blazor" target="_blank">GitHub</a></small>
 
