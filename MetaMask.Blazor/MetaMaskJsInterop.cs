@@ -58,6 +58,12 @@ namespace MetaMask.Blazor
             return await module.InvokeAsync<string>("signTypedData", label, value);
         }
 
+        public async ValueTask<dynamic> GenericRpc(string method, params dynamic?[]? args)
+        {
+            var module = await moduleTask.Value;
+            return await module.InvokeAsync<dynamic>("genericRpc", method, args);
+        }
+
         public async ValueTask DisposeAsync()
         {
             if (moduleTask.IsValueCreated)

@@ -37,7 +37,7 @@ export async function getTransactionCount() {
    return result;
 }
 
-export function signTypedData(label, value) {
+export async function signTypedData(label, value) {
     const msgParams = [
         {
             type: 'string', // Valid solidity type
@@ -46,13 +46,22 @@ export function signTypedData(label, value) {
         }
     ]
 
-    var result = ethereum.request({
+    var result = await ethereum.request({
         method: 'eth_signTypedData',
         params:
             [
                 msgParams,
                 ethereum.selectedAddress
             ]
+    });
+
+    return result;
+}
+
+export async function genericRpc(method, params) {
+    var result = await ethereum.request({
+        method: method,
+        params: params
     });
 
     return result;

@@ -14,6 +14,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
         public string? SelectedAddress { get; set; }
         public string? TransactionCount { get; set; }
         public string? SignedData { get; set; }
+        public string? RpcResult { get; set; }
 
         public async Task LoadMetaMask()
         {
@@ -36,6 +37,12 @@ namespace MetaMask.Blazor.SampleApp.Pages
         {
             var result = await MetaMaskJsInterop.SignTypedData("test label", "test value");
             SignedData = $"Signed: {result}";
+        }
+
+        public async Task GenericRpc()
+        {
+            var result = await MetaMaskJsInterop.GenericRpc("eth_requestAccounts");
+            RpcResult = $"RPC result: {result}";
         }
     }
 }
