@@ -2,7 +2,11 @@
 
 <h1>MetaMask Blazor Sample App</h1>
 
-@if (string.IsNullOrEmpty(SelectedAddress))
+@if(!HasMetaMask)
+{
+    <p>No MetaMask detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.</p>
+}
+else if (string.IsNullOrEmpty(SelectedAddress))
 {
     <button class="btn btn-primary" @onclick="CheckMetaMask">Initialize connection with MetaMask</button>
     <br />

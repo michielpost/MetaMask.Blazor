@@ -10,12 +10,13 @@ export async function checkMetaMask() {
                 await requestAccounts();
             } catch (error) {
                 // User denied account access...
+                throw "UserDenied"
             }
         }
     }
     // Non-dapp browsers...
     else {
-        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+        throw "NoMetaMask"
     }
 }
 
@@ -25,6 +26,10 @@ export async function requestAccounts() {
     });
 
     return result;
+}
+
+export function hasMetaMask() {
+    return (window.ethereum != undefined);
 }
 
 export function isSiteConnected() {

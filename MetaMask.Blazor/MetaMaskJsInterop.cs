@@ -1,5 +1,7 @@
+using MetaMask.Blazor.Exceptions;
 using Microsoft.JSInterop;
 using System;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -30,7 +32,28 @@ namespace MetaMask.Blazor
         public async ValueTask CheckMetaMask()
         {
             var module = await moduleTask.Value;
-            await module.InvokeVoidAsync("checkMetaMask");
+            try
+            {
+                await module.InvokeVoidAsync("checkMetaMask");
+            }
+            catch(Exception ex)
+            {
+                switch (ex.Message)
+                {
+                    case "NoMetaMask":
+                        throw new NoMetaMaskException();
+                    case "UserDenied":
+                        throw new UserDeniedException();
+                    default:
+                        throw;
+                }
+            }
+        }
+
+        public async ValueTask<bool> HasMetaMask()
+        {
+            var module = await moduleTask.Value;
+            return await module.InvokeAsync<bool>("hasMetaMask");
         }
 
         public async ValueTask<bool> IsSiteConnected()

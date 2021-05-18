@@ -11,6 +11,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
         [Inject]
         public MetaMaskJsInterop MetaMaskJsInterop { get; set; } = default!;
 
+        public bool HasMetaMask { get; set; }
         public string? SelectedAddress { get; set; }
         public string? TransactionCount { get; set; }
         public string? SignedData { get; set; }
@@ -18,6 +19,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            HasMetaMask = await MetaMaskJsInterop.HasMetaMask();
             bool isSiteConnected = await MetaMaskJsInterop.IsSiteConnected();
             if (isSiteConnected)
                 await GetSelectedAddress();
