@@ -1,14 +1,16 @@
 // This is a JavaScript module that is loaded on demand. It can export any number of
 // functions, and may import other JavaScript modules if required.
 
-export async function loadMetaMask() {
+export async function checkMetaMask() {
     // Modern dapp browsers...
     if (window.ethereum) {
-        try {
-            // Request account access if needed
-            await ethereum.enable();
-        } catch (error) {
-            // User denied account access...
+        if (ethereum.selectedAddress === null) {
+            try {
+                // Request account access if needed
+                await requestAccounts();
+            } catch (error) {
+                // User denied account access...
+            }
         }
     }
     // Non-dapp browsers...
@@ -17,14 +19,27 @@ export async function loadMetaMask() {
     }
 }
 
-export function getAddress() {
-    //const accounts = await ethereum.request({ method: 'eth_accounts' });
-    //console.log(accounts[0]);
+export async function requestAccounts() {
+    var result = await ethereum.request({
+        method: 'eth_requestAccounts',
+    });
+
+    return result;
+}
+
+export function isSiteConnected() {
+    return (window.ethereum != undefined && ethereum.selectedAddress != undefined);
+}
+
+export async function getSelectedAddress() {
+    await checkMetaMask();
 
     return ethereum.selectedAddress;
 }
 
 export async function getTransactionCount() {
+    await checkMetaMask();
+
     var result = await ethereum.request({
         method: 'eth_getTransactionCount',
         params:
@@ -38,6 +53,8 @@ export async function getTransactionCount() {
 }
 
 export async function signTypedData(label, value) {
+    await checkMetaMask();
+
     const msgParams = [
         {
             type: 'string', // Valid solidity type
@@ -59,6 +76,8 @@ export async function signTypedData(label, value) {
 }
 
 export async function genericRpc(method, params) {
+    await checkMetaMask();
+
     var result = await ethereum.request({
         method: method,
         params: params

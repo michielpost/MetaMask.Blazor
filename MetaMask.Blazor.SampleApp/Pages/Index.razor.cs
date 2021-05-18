@@ -16,14 +16,22 @@ namespace MetaMask.Blazor.SampleApp.Pages
         public string? SignedData { get; set; }
         public string? RpcResult { get; set; }
 
-        public async Task LoadMetaMask()
+        protected override async Task OnInitializedAsync()
         {
-            await MetaMaskJsInterop.LoadMetaMask();
+            bool isSiteConnected = await MetaMaskJsInterop.IsSiteConnected();
+            if (isSiteConnected)
+                await GetSelectedAddress();
         }
 
-        public async Task GetAddress()
+        public async Task CheckMetaMask()
         {
-            SelectedAddress = await MetaMaskJsInterop.GetAddress();
+            await MetaMaskJsInterop.CheckMetaMask();
+            await GetSelectedAddress();
+        }
+
+        public async Task GetSelectedAddress()
+        {
+            SelectedAddress = await MetaMaskJsInterop.GetSelectedAddress();
             Console.WriteLine($"Address: {SelectedAddress}");
         }
 

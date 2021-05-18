@@ -2,27 +2,33 @@
 
 <h1>MetaMask Blazor Sample App</h1>
 
-<button class="btn btn-primary" @onclick="LoadMetaMask">Load MetaMask</button>
-<br />
-<br />
-<button class="btn btn-primary" @onclick="GetAddress">Get Address</button>
-<br />
-<p>@SelectedAddress</p>
-<br />
+@if (string.IsNullOrEmpty(SelectedAddress))
+{
+    <button class="btn btn-primary" @onclick="CheckMetaMask">Initialize connection with MetaMask</button>
+    <br />
+    <br />
+}
+else
+{
+    <button class="btn btn-primary" @onclick="GetSelectedAddress">Get Selected Address</button>
+    <br />
+    <p>@SelectedAddress</p>
+    <br />
 
-<button class="btn btn-primary" @onclick="GetTransactionCount">Get Transaction Count</button>
-<br />
-<p>@TransactionCount</p>
-<br />
+    <button class="btn btn-primary" @onclick="GetTransactionCount">Get Transaction Count</button>
+    <br />
+    <p>@TransactionCount</p>
+    <br />
 
-<button class="btn btn-primary" @onclick="@(() => SignData("label", "value"))">Sign Data</button>
-<br />
-<p>@SignedData</p>
-<br />
+    <button class="btn btn-primary" @onclick="@(() => SignData("label", "value"))">Sign Data</button>
+    <br />
+    <p>@SignedData</p>
+    <br />
 
-<button class="btn btn-primary" @onclick="GenericRpc">Generic RPC call examle</button>
-<br />
-<p>@RpcResult</p>
-<br />
+    <button class="btn btn-primary" @onclick="GenericRpc">Generic RPC call examle</button>
+    <br />
+    <p>@RpcResult</p>
+    <br />
+}
 
 

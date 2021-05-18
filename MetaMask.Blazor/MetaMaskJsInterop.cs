@@ -27,16 +27,22 @@ namespace MetaMask.Blazor
             return jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/MetaMask.Blazor/metaMaskJsInterop.js");
         }
 
-        public async ValueTask LoadMetaMask()
+        public async ValueTask CheckMetaMask()
         {
             var module = await moduleTask.Value;
-            await module.InvokeVoidAsync("loadMetaMask");
+            await module.InvokeVoidAsync("checkMetaMask");
         }
 
-        public async ValueTask<string> GetAddress()
+        public async ValueTask<bool> IsSiteConnected()
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<string>("getAddress", null);
+            return await module.InvokeAsync<bool>("isSiteConnected");
+        }
+
+        public async ValueTask<string> GetSelectedAddress()
+        {
+            var module = await moduleTask.Value;
+            return await module.InvokeAsync<string>("getSelectedAddress", null);
         }
 
         public async ValueTask<int> GetTransactionCount()
