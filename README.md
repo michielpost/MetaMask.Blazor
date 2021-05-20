@@ -49,7 +49,7 @@ Once there is a connection, you can use other method calls like:
 - `GetSelectedAddress`
 - `GetTransactionCount`
 - `SignTypedData`
-- or use the generic RPC method: `GenericRpc
+- or use the generic RPC method: `GenericRpc`
 
 
 
