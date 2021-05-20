@@ -56,7 +56,7 @@ Once there is a connection, you can use other method calls like:
 ## Reference
 - https://docs.metamask.io
 - https://metamask.io
-- [Logging in with MetaMask in a Blazor WebAssembly app]()https://www.michielpost.nl/posts/logging-in-with-metamask-in-a-blazor-webassembly-app
+- [Logging in with MetaMask in a Blazor WebAssembly app](https://www.michielpost.nl/posts/logging-in-with-metamask-in-a-blazor-webassembly-app)
 
 ## Acknowledgements
 Development of MetaMask.Blazor has been made possible with a grant from [The Graph](https://thegraph.com/blog/wave-one-funding).
