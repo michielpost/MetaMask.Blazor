@@ -33,7 +33,7 @@ Use the `MetaMaskService`:
 
 Check if the user has MetaMask installed:
 ```cs
-HasMetaMask = await MetaMaskService.HasMetaMask();
+bool hasMetaMask = await MetaMaskService.HasMetaMask();
 ```
 
 Check if the user has previously connected to your site.
