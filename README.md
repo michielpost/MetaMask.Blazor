@@ -51,8 +51,9 @@ Once there is a connection, you can use other method calls like:
 - `SignTypedData`
 - or use the generic RPC method: `GenericRpc`
 
-
-
 ## Reference
 - https://docs.metamask.io
 - https://metamask.io
+
+## Acknowledgements
+Development of MetaMask.Blazor has been made possible with a grant from [The Graph](https://thegraph.com/blog/wave-one-funding).
