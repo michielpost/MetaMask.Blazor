@@ -21,6 +21,11 @@ namespace MetaMask.Blazor
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
+        public static event Func<string, Task>? AccountChangedEvent;
+        public static event Func<(int, Chain), Task>? NetworkChangedEvent;
+        //public static event Func<Task>? ConnectEvent;
+        //public static event Func<Task>? DisconnectEvent;
+
         public MetaMaskService(IJSRuntime jsRuntime)
         {
             moduleTask = new(() => LoadScripts(jsRuntime).AsTask());
@@ -74,6 +79,20 @@ namespace MetaMask.Blazor
             }
         }
 
+        public async ValueTask ListenToEvents()
+        {
+            var module = await moduleTask.Value;
+            try
+            {
+                await module.InvokeVoidAsync("listenToChangeEvents");
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
+        }
+
         public async ValueTask<string> GetSelectedAddress()
         {
             var module = await moduleTask.Value;
@@ -94,15 +113,19 @@ namespace MetaMask.Blazor
             try
             {
                 string chainHex = await module.InvokeAsync<string>("getSelectedChain", null);
-                int chainId = chainHex.HexToInt();
-
-                return (chainId, (Chain)chainId);
+                return ChainHexToChainResponse(chainHex);
             }
             catch (Exception ex)
             {
                 HandleExceptions(ex);
                 throw;
             }
+        }
+
+        private static (int chainId, Chain chain) ChainHexToChainResponse(string chainHex)
+        {
+            int chainId = chainHex.HexToInt();
+            return (chainId, (Chain)chainId);
         }
 
         public async ValueTask<int> GetTransactionCount()
@@ -168,6 +191,45 @@ namespace MetaMask.Blazor
                 throw;
             }
         }
+
+        //[JSInvokable()]
+        //public static async Task OnConnect()
+        //{
+        //    Console.WriteLine("connected");
+        //    if (ConnectEvent != null)
+        //    {
+        //        await ConnectEvent.Invoke();
+        //    }
+        //}
+
+        //[JSInvokable()]
+        //public static async Task OnDisconnect()
+        //{
+        //    Console.WriteLine("disconnected");
+        //    if (DisconnectEvent != null)
+        //    {
+        //        await DisconnectEvent.Invoke();
+        //    }
+        //}
+
+        [JSInvokable()]
+        public static async Task OnAccountsChanged(string selectedAccount)
+        {
+            if (AccountChangedEvent != null)
+            {
+                await AccountChangedEvent.Invoke(selectedAccount);
+            }
+        }
+
+        [JSInvokable()]
+        public static async Task OnNetworkChanged(string chainhex)
+        {
+            if (NetworkChangedEvent != null)
+            {
+                await NetworkChangedEvent.Invoke(ChainHexToChainResponse(chainhex));
+            }
+        }
+
 
         public async ValueTask DisposeAsync()
         {

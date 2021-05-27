@@ -51,7 +51,17 @@ Once there is a connection, you can use other method calls like:
 - `GetSelectedAddress`
 - `GetTransactionCount`
 - `SignTypedData`
+- `SendTransaction`
 - or use the generic RPC method: `GenericRpc`
+
+### Events
+Listen to events:  
+ `await MetaMaskService.ListenToEvents();`
+
+You can subscribe to two events:
+- `MetaMaskService.AccountChangedEvent`
+-  `MetaMaskService.NetworkChangedEvent`
+
 
 ## Reference
 - https://docs.metamask.io

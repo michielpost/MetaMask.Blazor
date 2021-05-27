@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MetaMask.Blazor.SampleApp.Pages
 {
-    public partial class Index
+    public partial class Index : IDisposable
     {
         [Inject]
         public MetaMaskService MetaMaskService { get; set; } = default!;
@@ -27,13 +27,33 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            //Subscribe to events
+            MetaMaskService.AccountChangedEvent += MetaMaskService_AccountChangedEvent;
+            MetaMaskService.NetworkChangedEvent += MetaMaskService_NetworkChangedEvent;
+
             HasMetaMask = await MetaMaskService.HasMetaMask();
+            if (HasMetaMask)
+                await MetaMaskService.ListenToEvents();
+
             bool isSiteConnected = await MetaMaskService.IsSiteConnected();
             if (isSiteConnected)
             {
                 await GetSelectedAddress();
-                await GetSelectedChain();
+                await GetSelectedNetwork();
             }
+
+        }
+
+        private async Task MetaMaskService_NetworkChangedEvent((int, Chain) arg)
+        {
+            await GetSelectedNetwork();
+            StateHasChanged();
+        }
+
+        private async Task MetaMaskService_AccountChangedEvent(string arg)
+        {
+            await GetSelectedAddress();
+            StateHasChanged();
         }
 
         public async Task ConnectMetaMask()
@@ -48,7 +68,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
             Console.WriteLine($"Address: {SelectedAddress}");
         }
 
-        public async Task GetSelectedChain()
+        public async Task GetSelectedNetwork()
         {
             var chainInfo = await MetaMaskService.GetSelectedChain();
             Chain = chainInfo.chain;
@@ -175,6 +195,12 @@ namespace MetaMask.Blazor.SampleApp.Pages
         {
             var result = await MetaMaskService.GenericRpc("eth_requestAccounts");
             RpcResult = $"RPC result: {result}";
+        }
+
+        public void Dispose()
+        {
+            MetaMaskService.AccountChangedEvent -= MetaMaskService_AccountChangedEvent;
+            MetaMaskService.NetworkChangedEvent -= MetaMaskService_NetworkChangedEvent;
         }
     }
 }

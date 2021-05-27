@@ -42,6 +42,26 @@ export async function getSelectedAddress() {
     return ethereum.selectedAddress;
 }
 
+export async function listenToChangeEvents() {
+    if (hasMetaMask()) {
+        //ethereum.on("connect", function () {
+        //    DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnConnect');
+        //});
+
+        //ethereum.on("disconnect", function () {
+        //    DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnDisconnect');
+        //});
+
+        ethereum.on("accountsChanged", function (accounts) {
+            DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnAccountsChanged', accounts[0]);
+        });
+
+        ethereum.on("networkChanged", function (networkId) {
+            DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnNetworkChanged', networkId);
+        });
+    }
+}
+
 export async function getSelectedChain() {
     await checkMetaMask();
 
@@ -112,7 +132,6 @@ export async function sendTransaction(to, value, data) {
 
         return result;
     } catch (error) {
-        console.log(error);
         if (error.code == 4001) {
             throw "UserDenied"
         }
