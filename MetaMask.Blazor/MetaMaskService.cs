@@ -2,6 +2,7 @@ using MetaMask.Blazor.Exceptions;
 using Microsoft.JSInterop;
 using System;
 using System.Linq;
+using System.Numerics;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -112,6 +113,21 @@ namespace MetaMask.Blazor
             try
             {
                 return await module.InvokeAsync<string>("signTypedData", label, value);
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
+        }
+
+        public async ValueTask<string> SendTransaction(string to, BigInteger weiValue, string? data = null)
+        {
+            var module = await moduleTask.Value;
+            try
+            {
+                string hexValue = "0x" + weiValue.ToString("X");
+                return await module.InvokeAsync<string>("sendTransaction", to, hexValue, data);
             }
             catch (Exception ex)
             {

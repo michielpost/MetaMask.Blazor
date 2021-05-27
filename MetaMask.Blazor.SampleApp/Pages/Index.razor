@@ -29,6 +29,14 @@ else
     <p>@SignedData</p>
     <br />
 
+    <button class="btn btn-primary" @onclick="@(() => CallSmartContractFunctionExample1())">Call a Smart Contract function</button>
+     <br />
+    <button class="btn btn-primary" @onclick="@(() => CallSmartContractFunctionExample2())">Call a Smart Contract example 2</button>
+
+    <br />
+    <p>@FunctionResult</p>
+    <br />
+
     <button class="btn btn-primary" @onclick="GenericRpc">Generic RPC call examle</button>
     <br />
     <p>@RpcResult</p>

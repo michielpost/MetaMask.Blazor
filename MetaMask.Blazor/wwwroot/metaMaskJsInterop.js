@@ -85,6 +85,32 @@ export async function signTypedData(label, value) {
     }
 }
 
+export async function sendTransaction(to, value, data) {
+    await checkMetaMask();
+
+    const transactionParameters = {
+        to: to,
+        from: ethereum.selectedAddress, // must match user's active address.
+        value: value,
+        data: data
+    };
+
+    try {
+        var result = await ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [transactionParameters]
+        });
+
+        return result;
+    } catch (error) {
+        console.log(error);
+        if (error.code == 4001) {
+            throw "UserDenied"
+        }
+        throw error;
+    }
+}
+
 export async function genericRpc(method, params) {
     await checkMetaMask();
 
