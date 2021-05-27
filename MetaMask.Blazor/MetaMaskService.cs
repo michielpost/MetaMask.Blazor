@@ -1,4 +1,6 @@
+using MetaMask.Blazor.Enums;
 using MetaMask.Blazor.Exceptions;
+using MetaMask.Blazor.Extensions;
 using Microsoft.JSInterop;
 using System;
 using System.Linq;
@@ -86,16 +88,33 @@ namespace MetaMask.Blazor
             }
         }
 
+        public async ValueTask<(int chainId, Chain chain)> GetSelectedChain()
+        {
+            var module = await moduleTask.Value;
+            try
+            {
+                string chainHex = await module.InvokeAsync<string>("getSelectedChain", null);
+                int chainId = chainHex.HexToInt();
+
+                return (chainId, (Chain)chainId);
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
+        }
+
         public async ValueTask<int> GetTransactionCount()
         {
             var module = await moduleTask.Value;
             try
             {
                 var result = await module.InvokeAsync<JsonElement>("getTransactionCount");
-                var resultString = result.GetString()?.Replace("0x", string.Empty);
+                var resultString = result.GetString();
                 if (resultString != null)
                 {
-                    int intValue = int.Parse(resultString, System.Globalization.NumberStyles.HexNumber);
+                    int intValue = resultString.HexToInt();
                     return intValue;
                 }
                 return 0;

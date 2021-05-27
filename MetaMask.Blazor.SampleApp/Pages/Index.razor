@@ -19,6 +19,11 @@ else
     <p>@SelectedAddress</p>
     <br />
 
+    <button class="btn btn-primary" @onclick="GetSelectedChain">Get Selected Chain</button>
+    <br />
+    <p>@SelectedChain</p>
+    <br />
+
     <button class="btn btn-primary" @onclick="GetTransactionCount">Get Transaction Count</button>
     <br />
     <p>@TransactionCount</p>
@@ -29,18 +34,30 @@ else
     <p>@SignedData</p>
     <br />
 
-    <button class="btn btn-primary" @onclick="@(() => CallSmartContractFunctionExample1())">Call a Smart Contract function</button>
-     <br />
-    <button class="btn btn-primary" @onclick="@(() => CallSmartContractFunctionExample2())">Call a Smart Contract example 2</button>
 
-    <br />
-    <p>@FunctionResult</p>
-    <br />
 
     <button class="btn btn-primary" @onclick="GenericRpc">Generic RPC call examle</button>
     <br />
     <p>@RpcResult</p>
     <br />
+
+    <h3>Kovan testnet only:</h3>
+    <p>Interact with a smart contract. These two example smart contracts are only deployed to the Kovan testnet. Make sure to select Kovan in MetaMask</p>
+
+    @if (Chain == Enums.Chain.Kovan)
+    {
+        <button class="btn btn-primary" @onclick="@(() => CallSmartContractFunctionExample1())">Call a Smart Contract function</button>
+        <br />
+        <button class="btn btn-primary" @onclick="@(() => CallSmartContractFunctionExample2())">Call a Smart Contract example 2</button>
+
+        <br />
+        <p>@FunctionResult</p>
+        <br />
+    }
+    else
+    {
+        <p>Please switch to Kovan testnet!</p>
+    }
 }
 
 <small>Source code available on <a href="https://github.com/michielpost/MetaMask.Blazor" target="_blank">GitHub</a></small>

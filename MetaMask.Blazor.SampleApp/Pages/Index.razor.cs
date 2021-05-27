@@ -1,4 +1,5 @@
-﻿using MetaMask.Blazor.Exceptions;
+﻿using MetaMask.Blazor.Enums;
+using MetaMask.Blazor.Exceptions;
 using Microsoft.AspNetCore.Components;
 using Nethereum.ABI.FunctionEncoding;
 using Nethereum.ABI.Model;
@@ -17,17 +18,22 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         public bool HasMetaMask { get; set; }
         public string? SelectedAddress { get; set; }
+        public string? SelectedChain { get; set; }
         public string? TransactionCount { get; set; }
         public string? SignedData { get; set; }
         public string? FunctionResult { get; set; }
         public string? RpcResult { get; set; }
+        public Chain? Chain { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             HasMetaMask = await MetaMaskService.HasMetaMask();
             bool isSiteConnected = await MetaMaskService.IsSiteConnected();
             if (isSiteConnected)
+            {
                 await GetSelectedAddress();
+                await GetSelectedChain();
+            }
         }
 
         public async Task ConnectMetaMask()
@@ -40,6 +46,15 @@ namespace MetaMask.Blazor.SampleApp.Pages
         {
             SelectedAddress = await MetaMaskService.GetSelectedAddress();
             Console.WriteLine($"Address: {SelectedAddress}");
+        }
+
+        public async Task GetSelectedChain()
+        {
+            var chainInfo = await MetaMaskService.GetSelectedChain();
+            Chain = chainInfo.chain;
+
+            SelectedChain = $"ChainID: {chainInfo.chainId}, Name: {chainInfo.chain.ToString()}";
+            Console.WriteLine($"ChainID: {chainInfo.chainId}");
         }
 
         public async Task GetTransactionCount()

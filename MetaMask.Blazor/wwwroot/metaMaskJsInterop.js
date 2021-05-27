@@ -42,6 +42,15 @@ export async function getSelectedAddress() {
     return ethereum.selectedAddress;
 }
 
+export async function getSelectedChain() {
+    await checkMetaMask();
+
+    var result = await ethereum.request({
+        method: 'eth_chainId'
+    });
+    return result;
+}
+
 export async function getTransactionCount() {
     await checkMetaMask();
 
