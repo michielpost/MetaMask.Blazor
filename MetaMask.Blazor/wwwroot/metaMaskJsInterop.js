@@ -56,8 +56,8 @@ export async function listenToChangeEvents() {
             DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnAccountsChanged', accounts[0]);
         });
 
-        ethereum.on("networkChanged", function (networkId) {
-            DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnNetworkChanged', networkId);
+        ethereum.on("chainChanged", function (chainId) {
+            DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnChainChanged', chainId);
         });
     }
 }
