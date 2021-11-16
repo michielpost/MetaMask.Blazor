@@ -22,7 +22,7 @@ namespace MetaMask.Blazor
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
         public static event Func<string, Task>? AccountChangedEvent;
-        public static event Func<(int, Chain), Task>? NetworkChangedEvent;
+        public static event Func<(int, Chain), Task>? ChainChangedEvent;
         //public static event Func<Task>? ConnectEvent;
         //public static event Func<Task>? DisconnectEvent;
 
@@ -222,11 +222,11 @@ namespace MetaMask.Blazor
         }
 
         [JSInvokable()]
-        public static async Task OnNetworkChanged(string chainhex)
+        public static async Task OnChainChanged(string chainhex)
         {
-            if (NetworkChangedEvent != null)
+            if (ChainChangedEvent != null)
             {
-                await NetworkChangedEvent.Invoke(ChainHexToChainResponse(chainhex));
+                await ChainChangedEvent.Invoke(ChainHexToChainResponse(chainhex));
             }
         }
 
