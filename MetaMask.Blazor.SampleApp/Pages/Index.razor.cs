@@ -29,7 +29,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
         {
             //Subscribe to events
             MetaMaskService.AccountChangedEvent += MetaMaskService_AccountChangedEvent;
-            MetaMaskService.NetworkChangedEvent += MetaMaskService_NetworkChangedEvent;
+            MetaMaskService.ChainChangedEvent += MetaMaskService_ChainChangedEvent;
 
             HasMetaMask = await MetaMaskService.HasMetaMask();
             if (HasMetaMask)
@@ -44,7 +44,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         }
 
-        private async Task MetaMaskService_NetworkChangedEvent((int, Chain) arg)
+        private async Task MetaMaskService_ChainChangedEvent((int, Chain) arg)
         {
             await GetSelectedNetwork();
             StateHasChanged();
@@ -200,7 +200,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
         public void Dispose()
         {
             MetaMaskService.AccountChangedEvent -= MetaMaskService_AccountChangedEvent;
-            MetaMaskService.NetworkChangedEvent -= MetaMaskService_NetworkChangedEvent;
+            MetaMaskService.ChainChangedEvent -= MetaMaskService_ChainChangedEvent;
         }
     }
 }
