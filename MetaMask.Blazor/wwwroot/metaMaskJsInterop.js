@@ -4,7 +4,7 @@
 export async function checkMetaMask() {
     // Modern dapp browsers...
     if (window.ethereum) {
-        if (ethereum.selectedAddress === null) {
+        if (ethereum.selectedAddress === null || ethereum.selectedAddress === undefined) {
             try {
                 // Request account access if needed
                 await requestAccounts();
@@ -12,6 +12,9 @@ export async function checkMetaMask() {
                 // User denied account access...
                 throw "UserDenied"
             }
+        }
+        else {
+            console.log("Selected:" + ethereum.selectedAddress);
         }
     }
     // Non-dapp browsers...
@@ -21,10 +24,10 @@ export async function checkMetaMask() {
 }
 
 export async function requestAccounts() {
+    console.log('reqAccount');
     var result = await ethereum.request({
         method: 'eth_requestAccounts',
     });
-
     return result;
 }
 
