@@ -34,7 +34,7 @@ namespace MetaMask.Blazor
         public ValueTask<IJSObjectReference> LoadScripts(IJSRuntime jsRuntime)
         {
             //await jsRuntime.InvokeAsync<IJSObjectReference>("import", "https://cdn.ethers.io/lib/ethers-5.1.0.umd.min.js");
-            return jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/MetaMask.Blazor/metaMaskInterop.js");
+            return jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/MetaMask.Blazor/metaMaskJsInterop.js");
         }
 
         public async ValueTask ConnectMetaMask()
