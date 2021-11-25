@@ -36,7 +36,7 @@ export function hasMetaMask() {
 }
 
 export function isSiteConnected() {
-    return (window.ethereum != undefined && ethereum.selectedAddress != undefined);
+    return (window.ethereum != undefined && (ethereum.selectedAddress != undefined || ethereum.selectedAddress != null));
 }
 
 export async function getSelectedAddress() {

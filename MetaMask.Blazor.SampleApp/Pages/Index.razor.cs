@@ -44,7 +44,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         }
 
-        private async Task MetaMaskService_ChainChangedEvent((int, Chain) arg)
+        private async Task MetaMaskService_ChainChangedEvent((long, Chain) arg)
         {
             await GetSelectedNetwork();
             StateHasChanged();
@@ -193,8 +193,15 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         public async Task GenericRpc()
         {
-            var result = await MetaMaskService.GenericRpc("eth_requestAccounts");
+            var result = await MetaMaskService.RequestAccounts();
             RpcResult = $"RPC result: {result}";
+        }
+
+        public async Task GetBalance()
+        {
+            var address = await MetaMaskService.GetSelectedAddress();
+            var result = await MetaMaskService.GetBalance(address);
+            RpcResult = $"Balance result: {result} wei";
         }
 
         public void Dispose()

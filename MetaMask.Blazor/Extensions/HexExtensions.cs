@@ -8,12 +8,12 @@ namespace MetaMask.Blazor.Extensions
 {
     public static class HexExtensions
     {
-        public static int HexToInt(this string hexString)
+        public static long HexToInt(this string hexString)
         {
             if (hexString.StartsWith("0x"))
                 hexString = hexString[2..];
 
-            return int.Parse(hexString, System.Globalization.NumberStyles.HexNumber);
+            return long.Parse(hexString, System.Globalization.NumberStyles.HexNumber);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MetaMask.Blazor
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
         public static event Func<string, Task>? AccountChangedEvent;
-        public static event Func<(int, Chain), Task>? ChainChangedEvent;
+        public static event Func<(long, Chain), Task>? ChainChangedEvent;
         //public static event Func<Task>? ConnectEvent;
         //public static event Func<Task>? DisconnectEvent;
 
@@ -34,7 +34,7 @@ namespace MetaMask.Blazor
         public ValueTask<IJSObjectReference> LoadScripts(IJSRuntime jsRuntime)
         {
             //await jsRuntime.InvokeAsync<IJSObjectReference>("import", "https://cdn.ethers.io/lib/ethers-5.1.0.umd.min.js");
-            return jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/MetaMask.Blazor/metaMaskJsInterop.js");
+            return jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/MetaMask.Blazor/metaMaskInterop.js");
         }
 
         public async ValueTask ConnectMetaMask()
@@ -107,7 +107,7 @@ namespace MetaMask.Blazor
             }
         }
 
-        public async ValueTask<(int chainId, Chain chain)> GetSelectedChain()
+        public async ValueTask<(long chainId, Chain chain)> GetSelectedChain()
         {
             var module = await moduleTask.Value;
             try
@@ -122,13 +122,13 @@ namespace MetaMask.Blazor
             }
         }
 
-        private static (int chainId, Chain chain) ChainHexToChainResponse(string chainHex)
+        private static (long chainId, Chain chain) ChainHexToChainResponse(string chainHex)
         {
-            int chainId = chainHex.HexToInt();
+            long chainId = chainHex.HexToInt();
             return (chainId, (Chain)chainId);
         }
 
-        public async ValueTask<int> GetTransactionCount()
+        public async ValueTask<long> GetTransactionCount()
         {
             var module = await moduleTask.Value;
             try
@@ -137,7 +137,7 @@ namespace MetaMask.Blazor
                 var resultString = result.GetString();
                 if (resultString != null)
                 {
-                    int intValue = resultString.HexToInt();
+                    long intValue = resultString.HexToInt();
                     return intValue;
                 }
                 return 0;
@@ -190,6 +190,22 @@ namespace MetaMask.Blazor
                 HandleExceptions(ex);
                 throw;
             }
+        }
+
+        public async Task<string> RequestAccounts()
+        {
+            var result = await GenericRpc("eth_requestAccounts");
+
+           return result.ToString();
+        }
+
+        public async Task<long> GetBalance(string address, string block = "latest")
+        {
+            var result = await GenericRpc("eth_getBalance", address, block);
+
+            string hex = result.ToString();
+
+            return hex.HexToInt();
         }
 
         //[JSInvokable()]
