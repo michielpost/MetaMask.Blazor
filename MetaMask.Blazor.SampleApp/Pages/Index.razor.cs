@@ -1,5 +1,6 @@
 ﻿using MetaMask.Blazor.Enums;
 using MetaMask.Blazor.Exceptions;
+using MetaMask.Blazor.SampleApp.Models;
 using Microsoft.AspNetCore.Components;
 using Nethereum.ABI.FunctionEncoding;
 using Nethereum.ABI.Model;
@@ -21,6 +22,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
         public string? SelectedChain { get; set; }
         public string? TransactionCount { get; set; }
         public string? SignedData { get; set; }
+        public string? SignedDataV4 { get; set; }
         public string? FunctionResult { get; set; }
         public string? RpcResult { get; set; }
         public Chain? Chain { get; set; }
@@ -90,13 +92,61 @@ namespace MetaMask.Blazor.SampleApp.Pages
                 var result = await MetaMaskService.SignTypedData("test label", "test value");
                 SignedData = $"Signed: {result}";
             }
-            catch(UserDeniedException)
+            catch (UserDeniedException)
             {
                 SignedData = "User Denied";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SignedData = $"Exception: {ex}";
+            }
+        }
+
+        public async Task SignDataV4()
+        {
+            try
+            {
+                var chainInfo = await MetaMaskService.GetSelectedChain();
+
+                var data = new TypedDataPayload<Message>
+                {
+                    Domain = new Domain
+                    {
+                        Name = "AAA",
+                        Version = "1",
+                        ChainId = chainInfo.chainId
+                    },
+                    Types = new Dictionary<string, TypeMemberValue[]>
+                    {
+                        ["EIP712Domain"] = new[]
+                        {
+                    new TypeMemberValue { Name = "name", Type = "string" },
+                    new TypeMemberValue { Name = "version", Type = "string" },
+                    new TypeMemberValue { Name = "chainId", Type = "uint256" }
+                },
+                        ["Message"] = new[]
+                        {
+                    new TypeMemberValue { Name = "contents", Type = "string" }
+                }
+                    },
+                    PrimaryType = "Message",
+                    Message = new Message
+                    {
+                        contents = "Salut"
+                    }
+                };
+
+                var result = await MetaMaskService.SignTypedDataV4(data.ToJson());
+
+                SignedDataV4 = $"Signed: {result}";
+            }
+            catch (UserDeniedException)
+            {
+                SignedDataV4 = "User Denied";
+            }
+            catch (Exception ex)
+            {
+                SignedDataV4 = $"Exception: {ex}";
             }
         }
 
@@ -185,7 +235,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
             var functionCallEncoder = new FunctionCallEncoder();
 
-            var data = functionCallEncoder.EncodeRequest(function.Sha3Signature, inputsParameters, new object[] { "green" } );
+            var data = functionCallEncoder.EncodeRequest(function.Sha3Signature, inputsParameters, new object[] { "green" });
 
             return data;
         }
