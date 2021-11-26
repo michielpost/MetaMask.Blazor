@@ -3,7 +3,7 @@ Use MetaMask with Blazor WebAssembly
 
 This library provides an easy helper to use MetaMask with Blazor WebAssembly.
 
-**[Live Demo](https://2g0ch2fm4kpn1sappnldbsv1bk7nl596luouqidjrfugioec70enh3g.siasky.net/)**
+**[Live Demo](https://2g0ef81hfenssoee5mkg7uv5k6j9rja7l0rnro3rfcd827mrerafc78.siasky.net/)**
 
 Real world implementation, login with MetaMask: [SkyDocs](https://skydocs.hns.siasky.net)
 
