@@ -117,6 +117,27 @@ export async function signTypedData(label, value) {
     }
 }
 
+export async function signTypedDataV4(typedData) {
+    await checkMetaMask();
+    
+    try {
+        var result = await ethereum.request({
+            method: 'eth_signTypedData_v4',
+            params:
+                [
+                    ethereum.selectedAddress,
+                    typedData
+                ],
+            from: ethereum.selectedAddress
+        });
+
+        return result;
+    } catch (error) {
+        // User denied account access...
+        throw "UserDenied"
+    }
+}
+
 export async function sendTransaction(to, value, data) {
     await checkMetaMask();
 

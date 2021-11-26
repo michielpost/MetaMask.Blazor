@@ -162,6 +162,20 @@ namespace MetaMask.Blazor
                 throw;
             }
         }
+        
+        public async ValueTask<string> SignTypedDataV4(string typedData)
+        {
+            var module = await moduleTask.Value;
+            try
+            {
+                return await module.InvokeAsync<string>("signTypedDataV4", typedData);
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
+        }
 
         public async ValueTask<string> SendTransaction(string to, BigInteger weiValue, string? data = null)
         {
