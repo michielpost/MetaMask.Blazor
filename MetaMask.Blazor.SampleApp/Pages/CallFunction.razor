@@ -1,0 +1,45 @@
+﻿@page "/CallFunction"
+@using Nethereum.ABI.Model
+@using Nethereum.Web3
+
+@inject MetaMaskService _metaMask
+
+<div class="container">
+    <div class="input-group">
+        <button class="btn btn-primary" @onclick="Send">Send</button>
+    </div>
+</div>
+
+@if(_showResultModal)
+{
+    <div class="modal fade show" role="dialog" style="display: inline;" tabindex="-1" id="modal-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Results Fetched</h4>
+                </div>
+                <div class="modal-body">
+                    <h3>@_result</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool _showResultModal = false;
+    private string _result = "";
+
+    private async void Send()
+    {
+        string infuraUrl = "https://ropsten.infura.io/v3/5c190aed92b74116a1ae2336fee217ae";
+        var web3 = new Web3(infuraUrl);
+        var contractAddress = "0xc59aF6Db2883674D0CBA40De88494E83b2b4DCD0";
+        var funcName = "hello";
+        var receipt = await _metaMask.SendTransactionAndWaitForReceipt(web3.Client, funcName, contractAddress, 0, new List<Parameter>().ToArray());
+        _result = "Block number: " + receipt.BlockNumber.ToString();
+        _showResultModal = true;
+        StateHasChanged();
+    }
+
+}

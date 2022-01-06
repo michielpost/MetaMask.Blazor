@@ -24,6 +24,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
+    <PackageReference Include="Nethereum.ABI" Version="4.1.1" />
+    <PackageReference Include="Nethereum.RPC" Version="4.1.1" />
   </ItemGroup>
 
 </Project>
