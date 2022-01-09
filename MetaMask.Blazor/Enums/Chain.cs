@@ -15,6 +15,8 @@ namespace MetaMask.Blazor.Enums
         Ropsten = 3,
         Rinkeby = 4,
         Goerli = 5,
-        Kovan = 42
+        Kovan = 42,
+        BinanceSmartChain = 56,
+        BinanceTestnet = 97
     }
 }
