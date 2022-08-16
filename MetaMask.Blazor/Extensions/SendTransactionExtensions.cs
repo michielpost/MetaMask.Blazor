@@ -10,7 +10,7 @@ namespace MetaMask.Blazor
 {
     public static class SendTransactionExtensions
     {
-        private static async Task<string> CallFunction(MetaMaskService metaMask, string funcName, string contractAddress, BigInteger valueInWei, Parameter[] paramaters, params object[] values)
+        private static async Task<string> CallFunction(IMetaMaskService metaMask, string funcName, string contractAddress, BigInteger valueInWei, Parameter[] paramaters, params object[] values)
         {
             FunctionABI function = new FunctionABI(funcName, false);
 
@@ -50,7 +50,7 @@ namespace MetaMask.Blazor
         /// <returns>Receipt Of Transaction</returns>
         public static async Task<TransactionReceipt> SendTransactionAndWaitForReceipt
             (
-            this MetaMaskService metaMask,
+            this IMetaMaskService metaMask,
             IClient client,
             string funcName,
             string contractAddress,
@@ -77,7 +77,7 @@ namespace MetaMask.Blazor
         /// <returns>Receipt Of Transaction</returns>
         public static async Task<TransactionReceipt> SendTransactionAndWaitForReceipt
             (
-            this MetaMaskService metaMask,
+            this IMetaMaskService metaMask,
             IClient client,
             string funcName,
             string contractAddress,

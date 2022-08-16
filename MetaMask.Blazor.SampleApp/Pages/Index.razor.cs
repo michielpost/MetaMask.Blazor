@@ -15,7 +15,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
     public partial class Index : IDisposable
     {
         [Inject]
-        public MetaMaskService MetaMaskService { get; set; } = default!;
+        public IMetaMaskService MetaMaskService { get; set; } = default!;
 
         public bool HasMetaMask { get; set; }
         public string? SelectedAddress { get; set; }
@@ -30,8 +30,8 @@ namespace MetaMask.Blazor.SampleApp.Pages
         protected override async Task OnInitializedAsync()
         {
             //Subscribe to events
-            MetaMaskService.AccountChangedEvent += MetaMaskService_AccountChangedEvent;
-            MetaMaskService.ChainChangedEvent += MetaMaskService_ChainChangedEvent;
+            IMetaMaskService.AccountChangedEvent += MetaMaskService_AccountChangedEvent;
+            IMetaMaskService.ChainChangedEvent += MetaMaskService_ChainChangedEvent;
 
             HasMetaMask = await MetaMaskService.HasMetaMask();
             if (HasMetaMask)
@@ -256,8 +256,8 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         public void Dispose()
         {
-            MetaMaskService.AccountChangedEvent -= MetaMaskService_AccountChangedEvent;
-            MetaMaskService.ChainChangedEvent -= MetaMaskService_ChainChangedEvent;
+            IMetaMaskService.AccountChangedEvent -= MetaMaskService_AccountChangedEvent;
+            IMetaMaskService.ChainChangedEvent -= MetaMaskService_ChainChangedEvent;
         }
     }
 }
