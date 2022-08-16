@@ -8,7 +8,7 @@
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Authors>Michiel Post</Authors>
-    <Version>1.6.1</Version>
+    <Version>1.7.0</Version>
     <Product>MetaMask.Blazor</Product>
     <PackageProjectUrl>https://github.com/michielpost/MetaMask.Blazor</PackageProjectUrl>
     <RepositoryUrl>https://github.com/michielpost/MetaMask.Blazor</RepositoryUrl>
@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.1" />
-    <PackageReference Include="Nethereum.ABI" Version="4.1.1" />
-    <PackageReference Include="Nethereum.RPC" Version="4.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.8" />
+    <PackageReference Include="Nethereum.ABI" Version="4.7.0" />
+    <PackageReference Include="Nethereum.RPC" Version="4.7.0" />
   </ItemGroup>
 
 </Project>
