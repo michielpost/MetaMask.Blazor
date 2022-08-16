@@ -20,13 +20,13 @@ builder.Services.AddMetaMaskBlazor();
 Inject the `MetaMaskService` in your Razor page
 ```cs
 @using MetaMask.Blazor
-@inject MetaMaskService MetaMaskService
+@inject IMetaMaskService MetaMaskService
 ```
 
 or class when using a .razor.cs file:
 ```cs
 [Inject]
-public MetaMaskService MetaMaskService { get; set; } = default!;
+public IMetaMaskService MetaMaskService { get; set; } = default!;
 ```
 
 Use the `MetaMaskService`:
@@ -55,12 +55,12 @@ Once there is a connection, you can use other method calls like:
 - or use the generic RPC method: `GenericRpc`
 
 ### Events
-Listen to events:  
+Listen to events:
  `await MetaMaskService.ListenToEvents();`
 
 You can subscribe to two events:
-- `MetaMaskService.AccountChangedEvent`
--  `MetaMaskService.NetworkChangedEvent`
+- `IMetaMaskService.AccountChangedEvent`
+- `IMetaMaskService.NetworkChangedEvent`
 
 
 ## Reference

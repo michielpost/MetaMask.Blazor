@@ -3,7 +3,6 @@ using MetaMask.Blazor.Exceptions;
 using MetaMask.Blazor.Extensions;
 using Microsoft.JSInterop;
 using System;
-using System.Linq;
 using System.Numerics;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,12 +16,10 @@ namespace MetaMask.Blazor
     // This class can be registered as scoped DI service and then injected into Blazor
     // components for use.
 
-    public class MetaMaskService : IAsyncDisposable
+    public class MetaMaskService : IAsyncDisposable, IMetaMaskService
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
-        public static event Func<string, Task>? AccountChangedEvent;
-        public static event Func<(long, Chain), Task>? ChainChangedEvent;
         //public static event Func<Task>? ConnectEvent;
         //public static event Func<Task>? DisconnectEvent;
 
@@ -113,19 +110,13 @@ namespace MetaMask.Blazor
             try
             {
                 string chainHex = await module.InvokeAsync<string>("getSelectedChain", null);
-                return ChainHexToChainResponse(chainHex);
+                return IMetaMaskService.ChainHexToChainResponse(chainHex);
             }
             catch (Exception ex)
             {
                 HandleExceptions(ex);
                 throw;
             }
-        }
-
-        private static (long chainId, Chain chain) ChainHexToChainResponse(string chainHex)
-        {
-            long chainId = chainHex.HexToInt();
-            return (chainId, (Chain)chainId);
         }
 
         public async ValueTask<long> GetTransactionCount()
@@ -162,7 +153,7 @@ namespace MetaMask.Blazor
                 throw;
             }
         }
-        
+
         public async ValueTask<string> SignTypedDataV4(string typedData)
         {
             var module = await moduleTask.Value;
@@ -210,7 +201,7 @@ namespace MetaMask.Blazor
         {
             var result = await GenericRpc("eth_requestAccounts");
 
-           return result.ToString();
+            return result.ToString();
         }
 
         public async Task<long> GetBalance(string address, string block = "latest")
@@ -241,25 +232,6 @@ namespace MetaMask.Blazor
         //        await DisconnectEvent.Invoke();
         //    }
         //}
-
-        [JSInvokable()]
-        public static async Task OnAccountsChanged(string selectedAccount)
-        {
-            if (AccountChangedEvent != null)
-            {
-                await AccountChangedEvent.Invoke(selectedAccount);
-            }
-        }
-
-        [JSInvokable()]
-        public static async Task OnChainChanged(string chainhex)
-        {
-            if (ChainChangedEvent != null)
-            {
-                await ChainChangedEvent.Invoke(ChainHexToChainResponse(chainhex));
-            }
-        }
-
 
         public async ValueTask DisposeAsync()
         {

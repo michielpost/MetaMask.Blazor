@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.JSInterop;
 
 namespace MetaMask.Blazor
 {
@@ -11,7 +7,7 @@ namespace MetaMask.Blazor
     {
         public static void AddMetaMaskBlazor(this IServiceCollection services)
         {
-            services.AddScoped<MetaMaskService>();
+            services.AddScoped<IMetaMaskService>(sp => new MetaMaskService(sp.GetRequiredService<IJSRuntime>()));
         }
     }
 }
