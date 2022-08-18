@@ -15,7 +15,7 @@ namespace MetaMask.Blazor
         ValueTask ConnectMetaMask();
         ValueTask DisposeAsync();
         ValueTask<dynamic> GenericRpc(string method, params dynamic[]? args);
-        Task<long> GetBalance(string address, string block = "latest");
+        Task<BigInteger> GetBalance(string address, string block = "latest");
         ValueTask<string> GetSelectedAddress();
         ValueTask<(long chainId, Chain chain)> GetSelectedChain();
         ValueTask<long> GetTransactionCount();

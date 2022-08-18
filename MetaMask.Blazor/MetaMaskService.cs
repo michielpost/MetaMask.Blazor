@@ -204,13 +204,13 @@ namespace MetaMask.Blazor
             return result.ToString();
         }
 
-        public async Task<long> GetBalance(string address, string block = "latest")
+        public async Task<BigInteger> GetBalance(string address, string block = "latest")
         {
             var result = await GenericRpc("eth_getBalance", address, block);
 
             string hex = result.ToString();
 
-            return hex.HexToInt();
+            return hex.HexToBigInteger();
         }
 
         //[JSInvokable()]
