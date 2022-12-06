@@ -24,7 +24,6 @@ export async function checkMetaMask() {
 }
 
 export async function requestAccounts() {
-    console.log('reqAccount');
     var result = await ethereum.request({
         method: 'eth_requestAccounts',
     });
@@ -47,13 +46,13 @@ export async function getSelectedAddress() {
 
 export async function listenToChangeEvents() {
     if (hasMetaMask()) {
-        //ethereum.on("connect", function () {
-        //    DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnConnect');
-        //});
+        ethereum.on("connect", function (connectInfo) {
+            DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnConnect');
+        });
 
-        //ethereum.on("disconnect", function () {
-        //    DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnDisconnect');
-        //});
+        ethereum.on("disconnect", function (error) {
+            DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnDisconnect');
+        });
 
         ethereum.on("accountsChanged", function (accounts) {
             DotNet.invokeMethodAsync('MetaMask.Blazor', 'OnAccountsChanged', accounts[0]);

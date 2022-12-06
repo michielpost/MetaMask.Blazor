@@ -12,6 +12,16 @@ namespace MetaMask.Blazor
         public static event Func<string, Task>? AccountChangedEvent;
         public static event Func<(long, Chain), Task>? ChainChangedEvent;
 
+        /// <summary>
+        /// https://docs.metamask.io/guide/ethereum-provider.html#connect
+        /// </summary>
+        public static event Action? OnConnectEvent;
+
+        /// <summary>
+        /// https://docs.metamask.io/guide/ethereum-provider.html#disconnect
+        /// </summary>
+        public static event Action? OnDisconnectEvent;
+
         ValueTask ConnectMetaMask();
         ValueTask DisposeAsync();
         ValueTask<dynamic> GenericRpc(string method, params dynamic[]? args);
@@ -27,6 +37,24 @@ namespace MetaMask.Blazor
         ValueTask<string> SendTransaction(string to, BigInteger weiValue, string? data = null);
         ValueTask<string> SignTypedData(string label, string value);
         ValueTask<string> SignTypedDataV4(string typedData);
+
+        [JSInvokable()]
+        static void OnConnect()
+        {
+            if (OnConnectEvent != null)
+            {
+                OnConnectEvent.Invoke();
+            }
+        }
+
+        [JSInvokable()]
+        static void OnDisconnect()
+        {
+            if (OnDisconnectEvent != null)
+            {
+                OnDisconnectEvent.Invoke();
+            }
+        }
 
         [JSInvokable()]
         static async Task OnAccountsChanged(string selectedAccount)

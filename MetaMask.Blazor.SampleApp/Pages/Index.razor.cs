@@ -32,6 +32,8 @@ namespace MetaMask.Blazor.SampleApp.Pages
             //Subscribe to events
             IMetaMaskService.AccountChangedEvent += MetaMaskService_AccountChangedEvent;
             IMetaMaskService.ChainChangedEvent += MetaMaskService_ChainChangedEvent;
+            IMetaMaskService.OnConnectEvent += IMetaMaskService_OnConnectEvent;
+            IMetaMaskService.OnDisconnectEvent += IMetaMaskService_OnDisconnectEvent;
 
             HasMetaMask = await MetaMaskService.HasMetaMask();
             if (HasMetaMask)
@@ -46,14 +48,26 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         }
 
+        private void IMetaMaskService_OnDisconnectEvent()
+        {
+            Console.WriteLine("Disconnect");
+        }
+
+        private void IMetaMaskService_OnConnectEvent()
+        {
+            Console.WriteLine("Connect");
+        }
+
         private async Task MetaMaskService_ChainChangedEvent((long, Chain) arg)
         {
+            Console.WriteLine("Chain Changed");
             await GetSelectedNetwork();
             StateHasChanged();
         }
 
         private async Task MetaMaskService_AccountChangedEvent(string arg)
         {
+            Console.WriteLine("Account Changed");
             await GetSelectedAddress();
             StateHasChanged();
         }
@@ -258,6 +272,8 @@ namespace MetaMask.Blazor.SampleApp.Pages
         {
             IMetaMaskService.AccountChangedEvent -= MetaMaskService_AccountChangedEvent;
             IMetaMaskService.ChainChangedEvent -= MetaMaskService_ChainChangedEvent;
+            IMetaMaskService.OnConnectEvent -= IMetaMaskService_OnConnectEvent;
+            IMetaMaskService.OnDisconnectEvent -= IMetaMaskService_OnDisconnectEvent;
         }
     }
 }
