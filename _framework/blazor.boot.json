@@ -8,8 +8,8 @@
   "resources": {
     "assembly": {
       "BouncyCastle.Crypto.dll": "sha256-n7KC+76rIikEfNEJ10mSwNXh+MMbda\/f4FD9fZ8WIw4=",
-      "MetaMask.Blazor.dll": "sha256-vvGdfx\/DrVp1Lpn+j5G7jsBt55MsmAGvRc3fyiudiQ0=",
-      "MetaMask.Blazor.SampleApp.dll": "sha256-VgLJ4bbqaAIDl5xZKHNTUzkBsFvhCYBvg8yRS8YbG+c=",
+      "MetaMask.Blazor.dll": "sha256-+NXin123d+0TLVMZZI2K\/cvGpr0urkTqiHY6ciIe1s8=",
+      "MetaMask.Blazor.SampleApp.dll": "sha256-KipVzoSWkIDS5uMsHTmhn+KC\/fpBTdiPXp2CmH3AOns=",
       "Microsoft.AspNetCore.Components.dll": "sha256-UUjk8gHHQ41ua46I3G0XW+YPjtxqjWVlcNb9XsFcMxU=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-Diw69AkFeKqbNzdRiRqa7sy1Q50Kzavf0PoNiEdw6Eg=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-VfuhQtMrvCmEflZYOOSPlstWKSnWBKH\/9leuaVp3ChE=",
