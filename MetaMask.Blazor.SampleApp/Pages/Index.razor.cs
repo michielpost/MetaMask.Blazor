@@ -23,6 +23,7 @@ namespace MetaMask.Blazor.SampleApp.Pages
         public string? TransactionCount { get; set; }
         public string? SignedData { get; set; }
         public string? SignedDataV4 { get; set; }
+        public string? PersonalSigned { get; set; }
         public string? FunctionResult { get; set; }
         public string? RpcResult { get; set; }
         public Chain? Chain { get; set; }
@@ -161,6 +162,25 @@ namespace MetaMask.Blazor.SampleApp.Pages
             catch (Exception ex)
             {
                 SignedDataV4 = $"Exception: {ex}";
+            }
+        }
+
+        public async Task PersonalSign()
+        {
+            try
+            {
+
+                var result = await MetaMaskService.PersonalSign("Sign this custom string");
+
+                PersonalSigned = $"Signed: {result}";
+            }
+            catch (UserDeniedException)
+            {
+                PersonalSigned = "User Denied";
+            }
+            catch (Exception ex)
+            {
+                PersonalSigned = $"Exception: {ex}";
             }
         }
 
