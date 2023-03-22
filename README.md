@@ -43,7 +43,14 @@ bool isSiteConnected = await MetaMaskService.IsSiteConnected();
 
 Initialize a new connection with MetaMask
 ```cs
-await MetaMaskService.ConnectMetaMask();
+try
+{
+    await MetaMaskService.ConnectMetaMask();
+}
+catch (UserDeniedException)
+{
+   //Handle "User Denied" case;
+}
 ```
 This can throw exceptions if the user decides to not allow the connection.
 
