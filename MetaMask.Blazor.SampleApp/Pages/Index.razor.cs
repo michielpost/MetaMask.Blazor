@@ -183,10 +183,15 @@ namespace MetaMask.Blazor.SampleApp.Pages
         {
             try
             {
+                string stringToSign = "Sign this custom string";
+                var result = await MetaMaskService.PersonalSign(stringToSign);
 
-                var result = await MetaMaskService.PersonalSign("Sign this custom string");
+                var signer = new Nethereum.Signer.EthereumMessageSigner();
+                var address = signer.EncodeUTF8AndEcRecover(stringToSign, result);
 
-                PersonalSigned = $"Signed: {result}";
+                address = address.ToLower();
+
+                PersonalSigned = $"Signed by address: {address} | value: {result}";
             }
             catch (UserDeniedException)
             {
