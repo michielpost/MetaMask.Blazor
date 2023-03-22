@@ -88,6 +88,32 @@ export async function getTransactionCount() {
     return result;
 }
 
+export async function personalSign(message) {
+    await checkMetaMask();
+
+    // Convert message to hex
+    const hex = message.split("")
+        .map(c => c.charCodeAt(0).toString(16).padStart(2, "0"))
+        .join("");
+    const msg = `0x${hex}`;
+
+    try {
+        var result = await ethereum.request({
+            method: 'personal_sign',
+            params:
+                [
+                    msg,
+                    ethereum.selectedAddress
+                ]
+        });
+
+        return result;
+    } catch (error) {
+        // User denied account access...
+        throw "UserDenied"
+    }
+}
+
 export async function signTypedData(label, value) {
     await checkMetaMask();
 

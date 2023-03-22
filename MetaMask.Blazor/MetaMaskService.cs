@@ -140,6 +140,20 @@ namespace MetaMask.Blazor
             }
         }
 
+        public async ValueTask<string> PersonalSign(string message)
+        {
+            var module = await moduleTask.Value;
+            try
+            {
+                return await module.InvokeAsync<string>("personalSign", message);
+            }
+            catch (Exception ex)
+            {
+                HandleExceptions(ex);
+                throw;
+            }
+        }
+
         public async ValueTask<string> SignTypedData(string label, string value)
         {
             var module = await moduleTask.Value;

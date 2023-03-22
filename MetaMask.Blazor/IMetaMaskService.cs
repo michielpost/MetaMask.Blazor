@@ -35,6 +35,7 @@ namespace MetaMask.Blazor
         ValueTask<IJSObjectReference> LoadScripts(IJSRuntime jsRuntime);
         Task<string> RequestAccounts();
         ValueTask<string> SendTransaction(string to, BigInteger weiValue, string? data = null);
+        ValueTask<string> PersonalSign(string message);
         ValueTask<string> SignTypedData(string label, string value);
         ValueTask<string> SignTypedDataV4(string typedData);
 
