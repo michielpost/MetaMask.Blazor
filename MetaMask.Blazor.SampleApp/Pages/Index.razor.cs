@@ -19,6 +19,8 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         public bool HasMetaMask { get; set; }
         public string? SelectedAddress { get; set; }
+
+        public string? InitializeMsg { get; set; }
         public string? SelectedChain { get; set; }
         public string? TransactionCount { get; set; }
         public string? SignedData { get; set; }
@@ -75,8 +77,20 @@ namespace MetaMask.Blazor.SampleApp.Pages
 
         public async Task ConnectMetaMask()
         {
-            await MetaMaskService.ConnectMetaMask();
-            await GetSelectedAddress();
+            try
+            {
+                await MetaMaskService.ConnectMetaMask();
+
+                await GetSelectedAddress();
+            }
+            catch (UserDeniedException)
+            {
+                InitializeMsg = "User Denied";
+            }
+            catch(Exception ex)
+            {
+                InitializeMsg = ex.ToString();
+            }
         }
 
         public async Task GetSelectedAddress()
