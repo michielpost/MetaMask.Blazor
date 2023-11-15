@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Authors>Michiel Post</Authors>
-    <Version>1.9.2</Version>
+    <Version>1.10.0</Version>
     <Product>MetaMask.Blazor</Product>
     <PackageProjectUrl>https://github.com/michielpost/MetaMask.Blazor</PackageProjectUrl>
     <RepositoryUrl>https://github.com/michielpost/MetaMask.Blazor</RepositoryUrl>
@@ -23,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageReference Include="Nethereum.ABI" Version="4.17.1" />
     <PackageReference Include="Nethereum.RPC" Version="4.17.1" />
   </ItemGroup>
