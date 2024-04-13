@@ -1,0 +1,79 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>MetaMask Blazor Sample App</h1>
+
+@if (!HasMetaMask)
+{
+    <p>No MetaMask detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.</p>
+}
+else if (string.IsNullOrEmpty(SelectedAddress))
+{
+    <button class="btn btn-primary" @onclick="ConnectMetaMask">Initialize connection with MetaMask</button>
+    <br />
+    <p>@InitializeMsg</p>
+    <br />
+}
+else
+{
+    <button class="btn btn-primary" @onclick="GetSelectedAddress">Get Selected Address</button>
+    <br />
+    <p>@SelectedAddress</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="GetSelectedNetwork">Get Selected Chain</button>
+    <br />
+    <p>@SelectedChain</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="GetTransactionCount">Get Transaction Count</button>
+    <br />
+    <p>@TransactionCount</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="@(() => SignData("label", "value"))">Sign Data</button>
+    <br />
+    <p>@SignedData</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="@(() => SignDataV4())">Sign Data V4</button>
+    <br />
+    <p>@SignedDataV4</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="@(() => PersonalSign())">Personal Sign</button>
+    <br />
+    <p>@PersonalSigned</p>
+    <br />
+
+
+    <button class="btn btn-primary" @onclick="GenericRpc">Generic RPC call examle</button>
+    <button class="btn btn-primary" @onclick="GetBalance">Get Balance examle</button>
+    <br />
+    <br />
+    <p>@RpcResult</p>
+    <br />
+
+    <h3>Kovan testnet only:</h3>
+    <p>Interact with a smart contract. These two example smart contracts are only deployed to the Kovan testnet. Make sure to select Kovan in MetaMask</p>
+
+    @if (Chain == MetaMask.Blazor.Enums.Chain.Kovan)
+    {
+        <button class="btn btn-primary" @onclick="@(() => CallSmartContractFunctionExample1())">Call a Smart Contract function</button>
+        <br />
+        <button class="btn btn-primary" @onclick="@(() => CallSmartContractFunctionExample2())">Call a Smart Contract example 2</button>
+
+        <br />
+        <p>@FunctionResult</p>
+        <br />
+    }
+    else
+    {
+        <p>Please switch to Kovan testnet!</p>
+    }
+}
+
+<small>Source code available on <a href="https://github.com/michielpost/MetaMask.Blazor" target="_blank">GitHub</a></small>
+
+

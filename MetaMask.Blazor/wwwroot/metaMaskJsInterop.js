@@ -2,6 +2,8 @@
 // functions, and may import other JavaScript modules if required.
 
 export async function checkMetaMask() {
+    console.log('check');
+
     // Modern dapp browsers...
     if (window.ethereum) {
         if (ethereum.selectedAddress === null || ethereum.selectedAddress === undefined) {
@@ -31,6 +33,7 @@ export async function requestAccounts() {
 }
 
 export function hasMetaMask() {
+    console.log('hasMetamask');
     return (window.ethereum != undefined);
 }
 
