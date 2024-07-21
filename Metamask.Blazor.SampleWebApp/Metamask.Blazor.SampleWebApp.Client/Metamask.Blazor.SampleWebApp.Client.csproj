@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4" />
 	  <PackageReference Include="Nethereum.ABI" Version="4.20.0" />
 	  <PackageReference Include="Nethereum.Web3" Version="4.20.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.*-*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
